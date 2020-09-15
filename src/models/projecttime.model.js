@@ -32,21 +32,25 @@ ProjectTime.findById = function (id, result) {
   });
 };
 ProjectTime.findAll = function (result) {
-  dbConn.query("Select * from logtime", function (err, res) {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-    } else {
-      console.log("logtime : ", res);
-      result(null, res);
+  dbConn.query(
+    "Select *,l.id as mainId from logtime as l inner join employees as e on l.employeeId=e.id inner join projects as p on p.id=l.projectId ",
+    function (err, res) {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+      } else {
+        console.log("logtime : ", res);
+        //res.dateSelected = res.dateSelected.toLocaleString();
+        result(null, res);
+      }
     }
-  });
+  );
 };
 ProjectTime.update = function (id, projectTime, result) {
   dbConn.query(
     "UPDATE logtime SET dateSelected=?,timeLogged=?,projectId=?,employeeId=? WHERE id = ?",
     [
-      projectTime.dateSeleted,
+      projectTime.dateSelected,
       projectTime.timeLogged,
       projectTime.projectId,
       projectTime.employeeId,
