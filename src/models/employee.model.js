@@ -49,6 +49,7 @@ Employee.findAll = function (result) {
     }
   });
 };
+
 Employee.update = function (id, employee, result) {
   dbConn.query(
     "UPDATE employees SET first_name=?,last_name=?,email=?,phone=?,organization=?,designation=?,salary=? WHERE id = ?",
